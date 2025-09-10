@@ -11,18 +11,40 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "bin": "./bin/index.js",
   "files": [
     "dist"
   ],
-  "scripts": {},
-  "dependencies": {},
-  "devDependencies": {}
+  "scripts": {
+    "build": "tsdown",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "code-check": "npm run lint && npm run typecheck",
+    "prepack": "npm run build",
+    "release": "bumpp --commit \"Release v%s\" && npm publish"
+  },
+  "dependencies": {
+    "cac": "^6.7.14"
+  },
+  "devDependencies": {
+    "@types/node": "^22.17.2",
+    "@ycs77/eslint-config": "^5.0.1",
+    "bumpp": "^10.2.3",
+    "eslint": "^9.35.0",
+    "tsdown": "^0.15.0",
+    "typescript": "~5.9.2"
+  }
 }
