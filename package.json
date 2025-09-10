@@ -1,0 +1,28 @@
+{
+  "name": "gh-list",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "Categorizing starred repositories on GitHub",
+  "license": "MIT",
+  "homepage": "https://github.com/ycs77/node-gh-list#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ycs77/node-gh-list.git"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {}
+}
