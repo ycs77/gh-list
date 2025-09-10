@@ -32,19 +32,23 @@
     "build": "tsdown",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
+    "test": "tsx test/gh-list.ts",
     "code-check": "npm run lint && npm run typecheck",
     "prepack": "npm run build",
     "release": "bumpp --commit \"Release v%s\" && npm publish"
   },
   "dependencies": {
-    "cac": "^6.7.14"
+    "cac": "^6.7.14",
+    "ofetch": "^1.4.1"
   },
   "devDependencies": {
     "@types/node": "^22.17.2",
     "@ycs77/eslint-config": "^5.0.1",
     "bumpp": "^10.2.3",
+    "dotenv": "^17.2.2",
     "eslint": "^9.35.0",
     "tsdown": "^0.15.0",
+    "tsx": "^4.20.5",
     "typescript": "~5.9.2"
   }
 }
