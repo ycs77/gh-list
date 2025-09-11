@@ -1,7 +1,7 @@
 {
   "name": "gh-list",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Categorizing starred repositories on GitHub",
   "license": "MIT",
   "homepage": "https://github.com/ycs77/gh-list#readme",
