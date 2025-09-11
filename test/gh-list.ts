@@ -18,6 +18,12 @@ async function main() {
   const created = await ghList.create('My New List', 'This is a description for my new list.')
   console.log('List created:', created)
 
+  const repoAdded = await ghList.addRepo('octocat/Hello-World', 'My New List')
+  console.log('Repo added to list:', repoAdded)
+
+  const repoRemoved = await ghList.removeRepo('octocat/Hello-World', 'My New List')
+  console.log('Repo removed from list:', repoRemoved)
+
   const deleted = await ghList.delete('My New List')
   console.log('List deleted:', deleted)
 }
