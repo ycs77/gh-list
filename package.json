@@ -24,12 +24,15 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "bin": "./bin/index.js",
+  "bin": {
+    "gh-list": "./bin/index.js"
+  },
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "tsdown",
+    "watch": "tsdown --watch",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "tsx test/gh-list.ts",
@@ -38,6 +41,7 @@
     "release": "bumpp --commit \"Release v%s\" && npm publish"
   },
   "dependencies": {
+    "@clack/prompts": "^0.11.0",
     "cac": "^6.7.14",
     "ofetch": "^1.4.1"
   },

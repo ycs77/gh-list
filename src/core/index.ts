@@ -1,4 +1,4 @@
-import type { FetchResponse, MappedResponseType, ResponseType } from 'ofetch'
+import type { MappedResponseType, ResponseType } from 'ofetch'
 import { ofetch } from 'ofetch'
 
 export class GHList {
@@ -23,16 +23,14 @@ export class GHList {
     return Object.keys(mapping)
   }
 
-  async create(name: string, description?: string): Promise<boolean> {
+  async create(name: string, description?: string): Promise<void> {
     const lists = await this.all()
     if (lists.length >= this.GH_LIST_LIMIT) {
-      console.error(`GitHub limit reached, can't create more than ${this.GH_LIST_LIMIT} lists`)
-      return false
+      throw new Error(`GitHub limit reached, can't create more than ${this.GH_LIST_LIMIT} lists`)
     }
 
     if (lists.includes(this.#preprocessString(name))) {
-      console.log(`List "${name}" already exists`)
-      return true
+      throw new Error(`List "${name}" already exists`)
     }
 
     const html = await this.#get<string, 'text'>(`/${this.username}?tab=stars`)
@@ -41,15 +39,14 @@ export class GHList {
       throw new Error('Failed to get CSRF token')
     }
 
-    const res = await this.#post<string, 'text'>(`/stars/${this.username}/lists`, {
+    await this.#post(`/stars/${this.username}/lists`, {
       authenticity_token: token,
       'user_list[name]': name,
       'user_list[description]': description || '',
     })
-    return res.ok
   }
 
-  async delete(list: string): Promise<boolean> {
+  async delete(list: string): Promise<void> {
     list = this.#preprocessString(list)
 
     const html = await this.#get<string, 'text'>(`/stars/${this.username}/lists/${list}`)
@@ -59,18 +56,17 @@ export class GHList {
       throw new Error(`Failed to get CSRF token, list "${list}" may not exist`)
     }
 
-    const res = await this.#post<string, 'text'>(`/stars/${this.username}/lists/${list}`, {
+    await this.#post<string, 'text'>(`/stars/${this.username}/lists/${list}`, {
       _method: 'delete',
       authenticity_token: token,
     })
-    return res.ok
   }
 
-  addRepo(repo: string, list: string): Promise<boolean> {
+  addRepo(repo: string, list: string): Promise<void> {
     return this.#repoToList(repo, list)
   }
 
-  removeRepo(repo: string, list: string): Promise<boolean> {
+  removeRepo(repo: string, list: string): Promise<void> {
     return this.#repoToList(repo, list, false)
   }
 
@@ -91,9 +87,9 @@ export class GHList {
     })
   }
 
-  #post<T = any, R extends ResponseType = 'json'>(path: string, data: Record<string, any>): Promise<FetchResponse<MappedResponseType<R, T>>> {
+  #post<T = any, R extends ResponseType = 'json'>(path: string, data: Record<string, any>): Promise<MappedResponseType<R, T>> {
     this.#debug('POST', path, data)
-    return ofetch.raw<T, R>(`${this.HOST}${path}`, {
+    return ofetch<T, R>(`${this.HOST}${path}`, {
       method: 'POST',
       body: new URLSearchParams(data),
       credentials: 'include',
@@ -174,7 +170,7 @@ export class GHList {
     return { mapping, csrfToken, repoId }
   }
 
-  async #repoToList(repo: string, list: string, add = true): Promise<boolean> {
+  async #repoToList(repo: string, list: string, add = true): Promise<void> {
     const { mapping, csrfToken, repoId } = await this.#getListsPageData(repo)
 
     list = this.#preprocessString(list)
@@ -184,13 +180,12 @@ export class GHList {
 
     const listId = mapping[list]
 
-    const res = await this.#post<string, 'text'>(`/${repo}/lists`, {
+    await this.#post(`/${repo}/lists`, {
       _method: 'put',
       authenticity_token: csrfToken,
       repository_id: repoId,
       context: 'user_list_menu',
       'list_ids[]': add ? listId : '',
     })
-    return res.ok
   }
 }
