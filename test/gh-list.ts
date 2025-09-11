@@ -15,17 +15,17 @@ async function main() {
   const lists = await ghList.all()
   console.log('Lists:', lists)
 
-  const created = await ghList.create('My New List', 'This is a description for my new list.')
-  console.log('List created:', created)
+  await ghList.create('My New List', 'This is a description for my new list.')
+  console.log('List created')
 
-  const repoAdded = await ghList.addRepo('octocat/Hello-World', 'My New List')
-  console.log('Repo added to list:', repoAdded)
+  await ghList.addRepo('octocat/Hello-World', 'My New List')
+  console.log('Repo added to list')
 
-  const repoRemoved = await ghList.removeRepo('octocat/Hello-World', 'My New List')
-  console.log('Repo removed from list:', repoRemoved)
+  await ghList.removeRepo('octocat/Hello-World', 'My New List')
+  console.log('Repo removed from list')
 
-  const deleted = await ghList.delete('My New List')
-  console.log('List deleted:', deleted)
+  await ghList.delete('My New List')
+  console.log('List deleted')
 }
 
 main()
