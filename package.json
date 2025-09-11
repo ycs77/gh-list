@@ -4,10 +4,10 @@
   "version": "0.0.1",
   "description": "Categorizing starred repositories on GitHub",
   "license": "MIT",
-  "homepage": "https://github.com/ycs77/node-gh-list#readme",
+  "homepage": "https://github.com/ycs77/gh-list#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ycs77/node-gh-list.git"
+    "url": "git+https://github.com/ycs77/gh-list.git"
   },
   "exports": {
     ".": {
