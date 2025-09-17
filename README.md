@@ -28,6 +28,10 @@ gh-list repo:remove owner/repo --list "listname" --user "gh_username" --cookie "
 
 For more information, run `gh-list --help`.
 
+## Credits
+
+This package is inspired by [Github Starred List](https://github.com/haile01/github-starred-list) and rewritten from it.
+
 ## License
 
 Under the [MIT LICENSE](LICENSE.md)
